@@ -1,0 +1,71 @@
+name: CI/CD Curriculo Online
+
+on:
+  pull_request:
+    branches:
+      - main
+
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  lint-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+
+      - name: Verificar arquivos principais
+        run: |
+          test -f index.html
+          test -f style.css
+          test -f Dockerfile
+          test -f docker-compose.yml
+
+      - name: Build do site
+        run: |
+          mkdir dist
+          cp index.html dist/
+          cp style.css dist/
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: lint-build
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+
+      - name: Preparar arquivos para deploy
+        run: |
+          mkdir dist
+          cp index.html dist/
+          cp style.css dist/
+
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Enviar artefato
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Publicar no GitHub Pages
+        uses: actions/deploy-pages@v4
