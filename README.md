@@ -38,5 +38,6 @@ O projeto utiliza Git com branches, Pull Requests, commits semânticos, proteç�
 ![Evidência de configuração de Branch Protection](image.png)
 ![Evidência de regras de branch](image-1.png)
 ![Evidência de status checks](image-2.png)
+![evidencia](image-3.png)
 
 
