@@ -2,11 +2,11 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-RUN npm install -g http-server
+COPY package*.json ./
+RUN npm install
 
 COPY . .
 
 EXPOSE 8080
 
-CMD ["http-server", ".", "-p", "8080"]
-# Cria uma imagem com Node.js para servir os arquivos do site
+CMD ["npm", "run", "dev"]

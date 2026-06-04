@@ -14,6 +14,8 @@ Acesse:
 
 http://localhost:8080
 
+O ambiente usa Vite como servidor de desenvolvimento, com hot reload ao salvar alteracoes nos arquivos do projeto.
+
 Para parar:
 
 ```bash
@@ -24,6 +26,7 @@ docker compose down
 
 - HTML
 - CSS
+- Vite
 - Docker
 - Docker Compose
 - GitHub Actions

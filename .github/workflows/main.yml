@@ -40,17 +40,14 @@ jobs:
           test -f Dockerfile
           test -f docker-compose.yml
 
-      - name: Lint HTML
-        run: npx --yes htmlhint index.html
+      - name: Instalar dependencias
+        run: npm install
 
-      - name: Lint CSS
-        run: npx --yes stylelint style.css --config .stylelintrc.json
+      - name: Lint
+        run: npm run lint
 
       - name: Build do site
-        run: |
-          mkdir dist
-          cp index.html dist/
-          cp style.css dist/
+        run: npm run build
 
   deploy:
     if: github.ref == 'refs/heads/main'
@@ -64,11 +61,16 @@ jobs:
       - name: Baixar codigo
         uses: actions/checkout@v4
 
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependencias
+        run: npm install
+
       - name: Preparar arquivos para deploy
-        run: |
-          mkdir dist
-          cp index.html dist/
-          cp style.css dist/
+        run: npm run build
 
       - name: Configurar GitHub Pages
         uses: actions/configure-pages@v5
